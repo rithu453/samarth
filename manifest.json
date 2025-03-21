@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "samarth",
+    "version": "1.0",
+    "description": "Floating AI assistant for summarizing webpages and answering queries.",
+    "permissions": ["scripting", "storage", "activeTab"],
+    "host_permissions": ["<all_urls>"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "css": ["pop.css"]
+      }
+    ]
+  }
+  
