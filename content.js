@@ -1,479 +1,355 @@
-// (function() {
-//     if (document.getElementById("ai-chat-toggle")) return; // Prevent multiple instances
-
-//     // Create floating button
-//     let button = document.createElement("div");
-//     button.id = "ai-chat-toggle";
-//     button.innerText = "💬";
-//     button.onclick = toggleChat;
-//     document.body.appendChild(button);
-
-//     // Create chat container
-//     let chatContainer = document.createElement("div");
-//     chatContainer.id = "ai-chat-container";
-//     chatContainer.innerHTML = `
-//         <div id="ai-chat-header">
-//             <span>AI Chat</span>
-//             <button id="close-chat">✖</button>
-//         </div>
-//         <div id="ai-chat-box"></div>
-//         <div id="ai-chat-input">
-//             <input type="text" id="chat-input" placeholder="Ask something..." />
-//             <button id="send-chat">➤</button>
-//         </div>
-//         <button id="generate-mindmap">🧠 Generate Mind Map</button>
-//         <div id="mindmap-container"></div>
-//     `;
-//     document.body.appendChild(chatContainer);
-
-//     // Close chat button
-//     document.getElementById("close-chat").addEventListener("click", () => {
-//         chatContainer.style.display = "none";
-//     });
-
-//     // Event listeners
-//     document.getElementById("send-chat").addEventListener("click", sendChatMessage);
-//     document.getElementById("chat-input").addEventListener("keypress", (e) => {
-//         if (e.key === "Enter") sendChatMessage();
-//     });
-//     document.getElementById("generate-mindmap").addEventListener("click", generateMindMap);
-
-//     // Show/hide chat
-//     function toggleChat() {
-//         chatContainer.style.display = chatContainer.style.display === "none" ? "block" : "none";
-//     }
-
-//     // Send chat query
-//     function sendChatMessage() {
-//         let inputField = document.getElementById("chat-input");
-//         let query = inputField.value.trim();
-//         if (!query) return;
-//         addMessage(query, "user");
-//         inputField.value = "";
-//         askGemini(query, document.body.innerText);
-//     }
-
-//     // Fetch AI response
-//     function askGemini(userMessage, pageText) {
-//         let apiKey = "AIzaSyCwdDvKqc-W9Ucmve5tU2OemneMPvymVEA";  // Replace with your actual key
-//         let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-    
-//         let requestBody = {
-//             contents: [{
-//                 parts: [
-//                     { text: `User Question: ${userMessage}\n\nWebpage Content: ${pageText}\n\nAnswer:` }
-//                 ]
-//             }]
-//         };
-    
-//         fetch(apiUrl, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(requestBody)
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.candidates && data.candidates.length > 0) {
-//                 addMessage(data.candidates[0].content.parts[0].text, "bot");
-//             } else {
-//                 addMessage("I couldn't generate a response. Try again!", "bot");
-//             }
-//         })
-//         .catch(error => {
-//             addMessage("Error connecting to AI.", "bot");
-//             console.error("API Error:", error);
-//         });
-//     }
-
-//     // Add messages to chat
-//     function addMessage(text, sender) {
-//         let chatBox = document.getElementById("ai-chat-box");
-//         let messageDiv = document.createElement("div");
-//         messageDiv.classList.add("message", sender);
-//         messageDiv.innerText = text;
-//         chatBox.appendChild(messageDiv);
-//         chatBox.scrollTop = chatBox.scrollHeight;
-//     }
-
-//     // Generate mind map
-//     function generateMindMap() {
-//         let summary = document.getElementById("ai-chat-box").innerText;
-//         let mindMapData = `graph TD; A[Summary] -->|Key Points| B(${summary.replace(/\n/g, ";")})`;
-//         let mindMapContainer = document.getElementById("mindmap-container");
-//         mindMapContainer.innerHTML = `<pre class="mermaid">${mindMapData}</pre>`;
-//         mermaid.init(undefined, mindMapContainer);
-//     }
-
-// })();
-
-// // Load Mermaid.js if not already present
-// if (!document.getElementById("mermaidScript")) {
-//     let script = document.createElement("script");
-//     script.id = "mermaidScript";
-//     script.src = "https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.2.0/mermaid.min.js";
-//     document.body.appendChild(script);
-//     script.onload = () => mermaid.initialize({ startOnLoad: false });
-// }
-
-
-
-
-// (function () {
-//     if (document.getElementById("ai-chat-toggle")) return;
-
-//     // Inject Chat Toggle Button
-//     let button = document.createElement("div");
-//     button.id = "ai-chat-toggle";
-//     button.innerText = "💬";
-//     button.style = "position: fixed; bottom: 20px; right: 20px; background: #0078ff; color: white; padding: 10px; border-radius: 50%; cursor: pointer; font-size: 20px; z-index: 9999;";
-//     button.onclick = toggleChat;
-//     document.body.appendChild(button);
-
-//     // Chat Container
-// let chatContainer = document.createElement("div");
-// chatContainer.id = "ai-chat-container";
-// chatContainer.style = `
-//     position: fixed; 
-//     bottom: 80px; 
-//     right: 20px; 
-//     width: 300px; 
-//     max-height: 500px; /* Ensures the chat box doesn't overflow */
-//     background: white; 
-//     border-radius: 8px; 
-//     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-//     display: none; 
-//     flex-direction: column; 
-//     z-index: 10000;
-//     overflow: hidden;
-// `;
-// chatContainer.innerHTML = `
-//     <div id="ai-chat-header" style="background: #0078ff; color: white; padding: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
-//         <span>AI Chat</span>
-//         <button id="close-chat" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer;">✖</button>
-//     </div>
-    
-//     <!-- Scrollable Chat Box -->
-//     <div id="ai-chat-box" style="flex-grow: 1; max-height: 250px; overflow-y: auto; padding: 10px; border-bottom: 1px solid #ddd;"></div>
-
-//     <!-- Input Section -->
-//     <div id="ai-chat-input" style="display: flex; padding: 10px; border-top: 1px solid #ddd;">
-//         <input type="text" id="chat-input" placeholder="Ask something..." style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-//         <button id="send-chat" style="margin-left: 5px; background: #0078ff; color: white; border: none; padding: 8px; cursor: pointer;">➤</button>
-//     </div>
-
-//     <!-- Generate Mind Map Button -->
-//     <button id="generate-mindmap" style="width: 100%; padding: 10px; border: none; background: #28a745; color: white; cursor: pointer; font-size: 14px;">🧠 Generate Mind Map</button>
-
-//     <!-- Scrollable Mind Map Container -->
-//     <div id="mindmap-container" style="max-height: 200px; overflow-y: auto; padding: 10px;"></div>
-// `;
-
-// document.body.appendChild(chatContainer);
-
-//     // Event Listeners
-//     document.getElementById("close-chat").addEventListener("click", () => chatContainer.style.display = "none");
-//     document.getElementById("send-chat").addEventListener("click", sendChatMessage);
-//     document.getElementById("chat-input").addEventListener("keypress", (e) => {
-//         if (e.key === "Enter") sendChatMessage();
-//     });
-//     document.getElementById("generate-mindmap").addEventListener("click", renderMindMap);
-
-//     function toggleChat() {
-//         chatContainer.style.display = chatContainer.style.display === "none" ? "block" : "none";
-//     }
-
-//     function sendChatMessage() {
-//         let inputField = document.getElementById("chat-input");
-//         let query = inputField.value.trim();
-//         if (!query) return;
-//         addMessage(query, "user");
-//         inputField.value = "";
-//         askGemini(query);
-//     }
-// // Fetch AI response
-//     function askGemini(userMessage, pageText) {
-//         let apiKey = "AIzaSyCwdDvKqc-W9Ucmve5tU2OemneMPvymVEA";  // Replace with your actual key
-//         let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-    
-//         let requestBody = {
-//             contents: [{
-//                 parts: [
-//                     { text: `User Question: ${userMessage}\n\nWebpage Content: ${pageText}\n\nAnswer:` }
-//                 ]
-//             }]
-//         };
-    
-//         fetch(apiUrl, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(requestBody)
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.candidates && data.candidates.length > 0) {
-//                 addMessage(data.candidates[0].content.parts[0].text, "bot");
-//             } else {
-//                 addMessage("I couldn't generate a response. Try again!", "bot");
-//             }
-//         })
-//         .catch(error => {
-//             addMessage("Error connecting to AI.", "bot");
-//             console.error("API Error:", error);
-//         });
-//     }
-
-//     function addMessage(text, sender) {
-//         let chatBox = document.getElementById("ai-chat-box");
-//         let messageDiv = document.createElement("div");
-//         messageDiv.classList.add("message", sender);
-//         messageDiv.style = `padding: 5px; border-radius: 5px; margin: 5px 0; ${sender === "user" ? "background: #0078ff; color: white; text-align: right;" : "background: #f1f1f1; text-align: left;"}`;
-//         messageDiv.innerText = text;
-//         chatBox.appendChild(messageDiv);
-//         chatBox.scrollTop = chatBox.scrollHeight;
-//     }
-
-//     function () {
-//         function renderMindMap() {
-//             let mindMapData = generateMindMap();
-//             let mindMapContainer = document.getElementById("mindmap-container");
-    
-//             if (!mindMapContainer) {
-//                 console.error("Mindmap container not found.");
-//                 return;
-//             }
-    
-//             mindMapContainer.innerHTML = `<pre class="mermaid">${mindMapData}</pre>`;
-    
-//             if (typeof mermaid !== "undefined") {
-//                 mermaid.init(undefined, mindMapContainer);
-//             } else {
-//                 console.warn("Mermaid.js not loaded. Loading now...");
-//                 loadMermaid(() => mermaid.init(undefined, mindMapContainer));
-//             }
-//         }
-    
-//         function generateMindMap() {
-//             let elements = document.querySelectorAll("h1, h2, h3, button, a, input, img, section, div");
-//             let structure = "graph TD;\n  root[Website] -->|Elements| section;\n";
-    
-//             elements.forEach((el, index) => {
-//                 let tag = el.tagName.toLowerCase();
-//                 let label = el.innerText.trim() || el.getAttribute("alt") || tag;
-//                 label = label.length > 30 ? label.substring(0, 27) + "..." : label; // Shorten label
-    
-//                 structure += `  section -->|${tag}| node${index}["${label}"];\n`;
-//             });
-    
-//             return structure;
-//         }
-    
-//         function loadMermaid(callback) {
-//             if (!document.getElementById("mermaidScript")) {
-//                 let script = document.createElement("script");
-//                 script.id = "mermaidScript";
-//                 script.src = "https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.2.0/mermaid.min.js";
-//                 script.onload = () => {
-//                     mermaid.initialize({ startOnLoad: false });
-//                     console.log("Mermaid.js loaded successfully.");
-//                     if (callback) callback();
-//                 };
-//                 document.body.appendChild(script);
-//             } else {
-//                 console.log("Mermaid.js already loaded.");
-//                 if (callback) callback();
-//             }
-//         }
-    
-//         document.addEventListener("DOMContentLoaded", () => {
-//             loadMermaid(renderMindMap);
-//         });
-//     })();
-
-
-(function () {
+(function() {
+    // Prevent multiple initializations
     if (document.getElementById("ai-chat-toggle")) return;
 
-    // Inject Chat Toggle Button
-    let button = document.createElement("div");
-    button.id = "ai-chat-toggle";
-    button.innerText = "💬";
-    button.style = `
-        position: fixed; bottom: 20px; right: 20px;
-        background: #0078ff; color: white;
-        padding: 10px; border-radius: 50%;
-        cursor: pointer; font-size: 20px;
-        z-index: 9999;
-    `;
-    button.onclick = toggleChat;
-    document.body.appendChild(button);
+    // Configuration
+    const config = {
+        colors: {
+            primary: "#0078ff",
+            secondary: "#28a745",
+            background: "#ffffff",
+            lightGray: "#f1f1f1"
+        },
+        apiEndpoints: {
+            // gemini: "https://192.168.27.236:8000/gemini",
+            mindMap: "https://192.168.27.236:8000/extract"
+        }
+    };
 
-    // Chat Container
-    let chatContainer = document.createElement("div");
-    chatContainer.id = "ai-chat-container";
-    chatContainer.style = `
-        position: fixed; bottom: 80px; right: 20px;
-        width: 300px; max-height: 500px;
-        background: white; border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        display: none; flex-direction: column;
-        z-index: 10000; overflow: hidden;
-    `;
-    chatContainer.innerHTML = `
-        <div id="ai-chat-header" style="background: #0078ff; color: white; padding: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
-            <span>AI Chat</span>
-            <button id="close-chat" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer;">✖</button>
-        </div>
-        <div id="ai-chat-box" style="flex-grow: 1; max-height: 250px; overflow-y: auto; padding: 10px; border-bottom: 1px solid #ddd;"></div>
-        <div id="ai-chat-input" style="display: flex; padding: 10px; border-top: 1px solid #ddd;">
-            <input type="text" id="chat-input" placeholder="Ask something..." style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            <button id="send-chat" style="margin-left: 5px; background: #0078ff; color: white; border: none; padding: 8px; cursor: pointer;">➤</button>
-        </div>
-        <button id="generate-mindmap" style="width: 100%; padding: 10px; border: none; background: #28a745; color: white; cursor: pointer; font-size: 14px;">🧠 Generate Mind Map</button>
-        <div id="mindmap-container" style="max-height: 200px; overflow-y: auto; padding: 10px;"></div>
-    `;
-    document.body.appendChild(chatContainer);
+    // Create and append chat UI
+    function initializeChatUI() {
+        // Inject Chat Toggle Button
+        const button = document.createElement("div");
+        button.id = "ai-chat-toggle";
+        button.setAttribute("aria-label", "Open AI Chat");
+        button.setAttribute("role", "button");
+        button.setAttribute("tabindex", "0");
+        button.innerText = "💬";
+        button.style = `
+            position: fixed; bottom: 20px; right: 20px;
+            background: ${config.colors.primary}; color: white;
+            padding: 15px; border-radius: 50%;
+            cursor: pointer; font-size: 20px;
+            z-index: 9999; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center;
+            width: 24px; height: 24px; transition: all 0.3s ease;
+        `;
+        document.body.appendChild(button);
 
-    // Event Listeners
-    document.getElementById("close-chat").addEventListener("click", () => chatContainer.style.display = "none");
-    document.getElementById("send-chat").addEventListener("click", sendChatMessage);
-    document.getElementById("chat-input").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") sendChatMessage();
-    });
-    document.getElementById("generate-mindmap").addEventListener("click", renderMindMap);
-
-    function toggleChat() {
-        chatContainer.style.display = chatContainer.style.display === "none" ? "block" : "none";
+        // Chat Container
+        const chatContainer = document.createElement("div");
+        chatContainer.id = "ai-chat-container";
+        chatContainer.style = `
+            position: fixed; bottom: 80px; right: 20px;
+            width: 350px; max-height: 500px;
+            background: ${config.colors.background}; border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            display: none; flex-direction: column;
+            z-index: 10000; overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        `;
+        
+        chatContainer.innerHTML = `
+            <div id="ai-chat-header" style="background: ${config.colors.primary}; color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+                <span>Samarth</span>
+                <button id="close-chat" aria-label="Close chat" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer; padding: 4px 8px;">✖</button>
+            </div>
+            <div id="ai-chat-box" style="flex-grow: 1; height: 300px; overflow-y: auto; padding: 16px; background: #f9f9f9; scroll-behavior: smooth;"></div>
+            <div id="ai-chat-input" style="display: flex; padding: 12px; border-top: 1px solid #eee; background: white;">
+                <input type="text" id="chat-input" placeholder="Ask something..." aria-label="Type your message" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; outline: none;">
+                <button id="send-chat" aria-label="Send message" style="margin-left: 8px; background: ${config.colors.primary}; color: white; border: none; border-radius: 6px; padding: 0 16px; cursor: pointer; transition: background 0.2s;">➤</button>
+            </div>
+            <button id="generate-mindmap" aria-label="Generate mind map" style="width: 100%; padding: 12px; border: none; background: ${config.colors.secondary}; color: white; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s;">🧠 Generate Mind Map</button>
+            <div id="mindmap-container" style="max-height: 200px; overflow-y: auto; padding: 16px; background: #f9f9f9; border-top: 1px solid #eee; display: none;"></div>
+        `;
+        
+        document.body.appendChild(chatContainer);
     }
 
+    // Add this to your content.js file if it's missing
+function addMessage(text, sender) {
+    const chatBox = document.getElementById("ai-chat-box");
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", sender);
+    
+    // Style based on sender
+    const isUser = sender === "user";
+    messageDiv.style = `
+        padding: 10px 14px;
+        border-radius: 14px;
+        margin: 8px 0;
+        max-width: 80%;
+        line-height: 1.4;
+        word-wrap: break-word;
+        ${isUser 
+            ? `background: ${config.colors.primary}; color: white; margin-left: auto; border-bottom-right-radius: 4px;` 
+            : `background: white; color: #333; margin-right: auto; border-bottom-left-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);`}
+    `;
+    
+    // Format message text (simple markdown-like parsing)
+    text = formatMessageText(text);
+    
+    messageDiv.innerHTML = text;
+    chatBox.appendChild(messageDiv);
+    
+    // Auto scroll to bottom
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+    // Add event listeners
+    function setupEventListeners() {
+        const chatToggle = document.getElementById("ai-chat-toggle");
+        const closeChat = document.getElementById("close-chat");
+        const sendButton = document.getElementById("send-chat");
+        const chatInput = document.getElementById("chat-input");
+        const generateButton = document.getElementById("generate-mindmap");
+
+        chatToggle.addEventListener("click", toggleChat);
+        chatToggle.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") toggleChat();
+        });
+        
+        closeChat.addEventListener("click", () => {
+            document.getElementById("ai-chat-container").style.display = "none";
+        });
+        
+        sendButton.addEventListener("click", sendChatMessage);
+        
+        chatInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") sendChatMessage();
+        });
+        
+        generateButton.addEventListener("click", renderMindMap);
+    }
+
+    // Toggle chat visibility
+    function toggleChat() {
+        const chatContainer = document.getElementById("ai-chat-container");
+        const isVisible = chatContainer.style.display !== "none";
+        
+        chatContainer.style.display = isVisible ? "none" : "flex";
+        
+        if (!isVisible) {
+            document.getElementById("chat-input").focus();
+            
+            // Add welcome message if chat is empty
+            const chatBox = document.getElementById("ai-chat-box");
+            if (chatBox.childNodes.length === 0) {
+                addMessage("Hello! How can I help you today?", "bot");
+            }
+        }
+    }
+
+    // Send user message and get AI response
     function sendChatMessage() {
-        let inputField = document.getElementById("chat-input");
-        let query = inputField.value.trim();
+        const inputField = document.getElementById("chat-input");
+        const query = inputField.value.trim();
+        
         if (!query) return;
+        
         addMessage(query, "user");
         inputField.value = "";
-        askGemini(query);
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Get AI response
+        askGemini(query)
+            .finally(() => {
+                removeTypingIndicator();
+            });
     }
 
-    // Fetch AI response
-    function askGemini(userMessage) {
-        let apiKey = "YOUR_API_KEY_HERE"; // Replace with your secure key
-        let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-        let requestBody = {
-            contents: [{
-                parts: [{ text: `User Question: ${userMessage}\n\nAnswer:` }]
-            }]
-        };
-
-        fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(requestBody)
-        })
-        .then(response => response.json())
-        .then(data => {
-            let botResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response. Try again!";
-            addMessage(botResponse, "bot");
-        })
-        .catch(error => {
-            addMessage("Error connecting to AI.", "bot");
-            console.error("API Error:", error);
-        });
-    }
-
-    function addMessage(text, sender) {
-        let chatBox = document.getElementById("ai-chat-box");
-        let messageDiv = document.createElement("div");
-        messageDiv.classList.add("message", sender);
-        messageDiv.style = `
-            padding: 5px; border-radius: 5px; margin: 5px 0;
-            ${sender === "user" ? "background: #0078ff; color: white; text-align: right;" : "background: #f1f1f1; text-align: left;"}
+    // Show typing indicator
+    function showTypingIndicator() {
+        const chatBox = document.getElementById("ai-chat-box");
+        const indicator = document.createElement("div");
+        indicator.id = "typing-indicator";
+        indicator.style = `
+            padding: 8px 12px;
+            background: #f1f1f1;
+            border-radius: 12px;
+            margin: 5px 0;
+            width: fit-content;
+            display: flex;
+            align-items: center;
         `;
-        messageDiv.innerText = text;
-        chatBox.appendChild(messageDiv);
+        
+        // Add animated dots
+        for (let i = 0; i < 3; i++) {
+            const dot = document.createElement("div");
+            dot.style = `
+                height: 8px;
+                width: 8px;
+                background: #888;
+                border-radius: 50%;
+                margin: 0 2px;
+                opacity: 0.7;
+                animation: pulse 1.5s infinite ease-in-out;
+                animation-delay: ${i * 0.2}s;
+            `;
+            indicator.appendChild(dot);
+        }
+        
+        // Add animation style
+        if (!document.getElementById("typing-animation")) {
+            const style = document.createElement("style");
+            style.id = "typing-animation";
+            style.textContent = `
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.2); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        chatBox.appendChild(indicator);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function renderMindMap() {
-        let mindMapData = generateMindMap();
-        let mindMapContainer = document.getElementById("mindmap-container");
-
-        if (!mindMapContainer) {
-            console.error("Mindmap container not found.");
-            return;
-        }
-
-        mindMapContainer.innerHTML = `<pre class="mermaid">${mindMapData}</pre>`;
-
-        if (typeof mermaid !== "undefined") {
-            mermaid.init(undefined, mindMapContainer);
-        } else {
-            console.warn("Mermaid.js not loaded. Loading now...");
-            loadMermaid(() => mermaid.init(undefined, mindMapContainer));
+    // Remove typing indicator
+    function removeTypingIndicator() {
+        const indicator = document.getElementById("typing-indicator");
+        if (indicator) {
+            indicator.remove();
         }
     }
 
-    // function generateMindMap() {
-    //     let elements = document.querySelectorAll("button, a, input");
-    //     let structure = "graph TD;\n  root[Website] -->|Elements| section;\n";
+   
+    // Global variable to store the mind map data
+let currentMindMapData = null;
 
-    //     elements.forEach((el, index) => {
-    //         let tag = el.tagName.toLowerCase();
-    //         let label = el.innerText.trim() || el.getAttribute("alt") || tag;
-    //         label = label.length > 30 ? label.substring(0, 27) + "..." : label; // Shorten label
+// Modified renderMindMap function to store the mind map data
+async function renderMindMap() {
+    const url = window.location.href;
+    console.log("Current URL:", url);
 
-    //         structure += `  section -->|${tag}| node${index}["${label}"];\n`;
-    //     });
-
-    //     return structure;
-    // }
-
-    function generateMindMap() {
-        let elements = document.querySelectorAll("button, a, input");
-        let structure = "graph TD;\n  root[Website] -->|Elements| section;\n";
+    // Show mind map container
+    const mindMapContainer = document.getElementById("mindmap-container");
+    mindMapContainer.style.display = "block";
     
-        elements.forEach((el, index) => {
-            let tag = el.tagName.toLowerCase();
-            let label = el.innerText.trim() || el.getAttribute("alt") || tag;
-            let href = el.tagName === "A" ? el.getAttribute("href") : null; // Extract link for <a> tags
-            
-            label = label.length > 30 ? label.substring(0, 27) + "..." : label; // Shorten long labels
+    // Get and disable button
+    const generateButton = document.getElementById("generate-mindmap");
+    generateButton.disabled = true;
+    generateButton.innerText = "⏳ Generating...";
+    generateButton.style.opacity = "0.7";
     
-            structure += `  section -->|${tag}| node${index}["${label}"];\n`;
+    try {
+        const response = await sendMindMapToApi(url);
+        console.log("Mind Map API Response:", response);
     
-            // If it's an <a> tag with a valid href, add a clickable link in Mermaid
-            if (href) {
-                structure += ` node${index} "${href}" \n`;
+        if (response.mindmap) {  // Check if mindmap exists
+            currentMindMapData = response.mindmap;
+    
+            // Format the mindmap for display
+            const formattedMindMap = response.mindmap
+                .split("\n")  // Convert to an array of lines
+                .map(line => `<li>${line}</li>`)  // Wrap each line in a list item
+                .join("");  // Convert back to a string
+    
+            // Display the mind map properly inside a <ul>
+            mindMapContainer.innerHTML = `
+                <ul style="padding-left: 16px;">${formattedMindMap}</ul>
+            `;
+        } else {
+            currentMindMapData = null;
+            mindMapContainer.innerHTML = `<p style="color: red;">❌ Error: Failed to generate mind map.</p>`;
+        }
+    } catch (error) {
+        console.error("Mind Map API error:", error);
+        currentMindMapData = null;
+        mindMapContainer.innerHTML = `<p style="color: red;">❌ Connection Error: ${error.message || "Failed to connect to API service."}</p>`;
+    } finally {
+        generateButton.disabled = false;
+        generateButton.innerText = "🧠 Generate Mind Map";
+        generateButton.style.opacity = "1";
+    }
+    
+    
+}
+
+async function askGemini(query, retryCount = 3, delay = 1000) {
+    const apiUrl = "https://192.168.27.236:8000/gemini"; // API route
+
+    const requestBody = {
+        query: query, 
+        mindmap: currentMindMapData 
+    };
+
+    try {
+        // Send request to backend
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody),
+        });
+
+        // Handle rate-limiting (429)
+        if (response.status === 429 && retryCount > 0) {
+            console.warn("Rate limited! Retrying in", delay, "ms");
+            await new Promise(resolve => setTimeout(resolve, delay));
+            return askGemini(query, retryCount - 1, delay * 2); // Exponential backoff
+        }
+
+        if (!response.ok) throw new Error(`API Error: ${response.status} ${response.statusText}`);
+
+        const data = await response.json();
+        console.log(data);
+        
+        // Extract and display the chatbot response
+        const botResponse = data || "I couldn't generate a response. Please try again.";
+        addMessage(botResponse, "bot");
+
+    } catch (error) {
+        console.error("Gemini API Error:", error);
+        addMessage("❌ Error: Unable to connect to AI. Please try again later.", "bot");
+    }
+}
+
+
+
+// Function to format message text (supports basic markdown-like syntax)
+function formatMessageText(text) {
+    return text
+        .replace(/\*(.*?)\*/g, "<strong>$1</strong>") // Bold: *text*
+        .replace(/_(.*?)_/g, "<em>$1</em>") // Italic: _text_
+        .replace(/`(.*?)`/g, "<code>$1</code>"); // Inline code: `text`
+}
+
+    // Truncate URL for display
+    function truncateUrl(url, maxLength) {
+        if (url.length <= maxLength) return url;
+        return url.substring(0, maxLength) + '...';
+    }
+
+    // Send URL to backend API ...any url
+    async function sendMindMapToApi(url) {
+        try {
+            const response = await fetch(config.apiEndpoints.mindMap, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: url }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
             }
 
-        });
-    
-        return structure;
-    }
-    
-
-    function loadMermaid(callback) {
-        if (!document.getElementById("mermaidScript")) {
-            let script = document.createElement("script");
-            script.id = "mermaidScript";
-            script.src = "https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.2.0/mermaid.min.js";
-            script.onload = () => {
-                mermaid.initialize({ startOnLoad: false });
-                console.log("Mermaid.js loaded successfully.");
-                if (callback) callback();
-            };
-            document.body.appendChild(script);
-        } else {
-            console.log("Mermaid.js already loaded.");
-            if (callback) callback();
+            return await response.json();
+        } catch (error) {
+            console.error("Mind Map API error:", error);
+            throw error;
         }
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        loadMermaid(renderMindMap);
-    });
+    // Initialize the chat interface
+    function initialize() {
+        initializeChatUI();
+        setupEventListeners();
+        console.log("✅ AI Chat interface initialized successfully");
+    }
+
+    // Start initialization
+    initialize();
 })();
