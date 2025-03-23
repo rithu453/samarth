@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samarth - The Smart Guide</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 56px;
+        }
+        section {
+            padding: 80px 0;
+            min-height: 100vh;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/600') center/cover no-repeat;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .about-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .about-card:hover {
+            transform: translateY(-5px);
+        }
+        .service-card {
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            height: 100%;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #0d6efd;
+        }
+        .contact-info {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+        footer {
+            background-color: #212529;
+            color: white;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">SAMARTH</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#extension-guide">Guide</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+       <!-- Home Section -->
+    <section id="home" class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-3 fw-bold mb-4">SAMARTH</h1>
+            <p class="lead mb-5">The Smart Guide for Your Future Success</p>
+            <a href="#extension-guide" class="btn btn-primary btn-lg px-5">Get started </a>
+        </div>
+
+    </section>
+ 
+
+    <!-- Steps to Use the Extension Section -->
+<section id="extension-guide" class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="display-4 fw-bold">How to Download the Extension</h2>
+                <p class="lead text-muted">Follow these steps to install and use the Samarth extension effectively.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card p-4">
+                    <h4>1. Download the Extension</h4>
+                    <p>Download the extension <strong>.zip</strong> file from the provided source.</p>
+                    
+                    <h4>2. Add the Extension Manually</h4>
+                    <ul>
+                        <li>Open your browser and go to:  
+                            <code>chrome://extensions/</code> (for Chrome) or <code>edge://extensions/</code> (for Edge).</li>
+                        <li>Enable <strong>Developer Mode</strong> (toggle switch in the top right corner).</li>
+                        <li>Click on <strong>Load Unpacked</strong>.</li>
+                        <li>Select the extension folder and upload it.</li>
+                    </ul>
+                    
+                    <h4>3. Activate the Extension</h4>
+                    <p>Once uploaded, click on the extension icon in the toolbar.</p>
+                    
+                    <h4>4. Navigate to the Required Website</h4>
+                    <p>Open the website where you want to use the extension.</p>
+                    
+                    <h4>5. Adjust Advanced Network Settings</h4>
+                    <ul>
+                        <li>Open DevTools (<code>Ctrl + Shift + I</code> or <code>F12</code>).</li>
+                        <li>Go to the <strong>Network</strong> tab.</li>
+                        <li>Click on <strong>Advanced Settings</strong>.</li>
+                        <li>Select <strong>Accept</strong> to allow the extension to analyze the website.</li>
+                    </ul>
+                    
+                    <h4>6. Generate the Mind Map</h4>
+                    <ul>
+                        <li>Click on the extension icon again.</li>
+                        <li>Select <strong>Generate Mind Map</strong>.</li>
+                        <li>The extension will display all possible navigation paths in a mind map format.</li>
+                    </ul>
+
+                    <h4>7. Use the Chat Interface</h4>
+                    <p>You can ask any navigation-related questions in the provided chat interface.</p>
+                    <p>The extension will guide you with relevant answers based on the mind map.</p>
+
+                    <!-- Download Button -->
+                    <div class="text-center mt-4">
+                        <a href="YOUR_ZIP_FILE_LINK_HERE" download class="btn btn-primary btn-lg">
+                            Download Extension (.zip)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Services Section -->
+    <section id="services" class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="display-4 fw-bold">Our Services</h2>
+                    <p class="lead text-muted">Innovative solutions for a smarter experience</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 mb-4">
+                    <div class="service-card text-center">
+                        <div class="service-icon">🧠</div>
+                        <h3>Smart Mind Map Generation</h3>
+                        <p>Automatically generate structured mind maps to organize your thoughts and ideas efficiently.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card text-center">
+                        <div class="service-icon">🌐</div>
+                        <h3>Website Navigation Guide</h3>
+                        <p>Get an AI-powered guide that helps users navigate through complex websites seamlessly.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card text-center">
+                        <div class="service-icon">🤖</div>
+                        <h3>Smart Assistant</h3>
+                        <p>Your personal AI-powered assistant to answer queries and guide you to success.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card text-center">
+                        <div class="service-icon">🔗</div>
+                        <h3>Complex Website Navigation</h3>
+                        <p>Advanced navigation tools to simplify browsing on large, data-intensive websites.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card text-center">
+                        <div class="service-icon">💬</div>
+                        <h3>Easy Interactive Chat Interface</h3>
+                        <p>Engage with an intuitive chat system for instant responses and guidance.</p>
+                    </div>
+                </div>
+                
+                <!-- Secure Zip File Download -->
+                
+            </div>
+        </div>
+    </section>
+    
+
+<script>
+    const fileInput = document.getElementById("fileInput");
+    const fileList = document.getElementById("fileList");
+
+    function uploadFile() {
+        const file = fileInput.files[0];
+        if (!file || !file.name.endsWith(".zip")) {
+            alert("Please upload a ZIP file.");
+            return;
+        }
+
+        // Mocking an upload process (For real use, implement server-side storage)
+        const listItem = document.createElement("li");
+        listItem.className = "list-group-item";
+        listItem.innerHTML = `
+            ${file.name} 
+            <a href="#" onclick="downloadFile('${file.name}')" class="btn btn-link">Download</a>
+        `;
+        fileList.appendChild(listItem);
+        
+        alert("File uploaded successfully! (Simulated)");
+    }
+
+    function downloadFile(fileName) {
+        alert("Downloading: " + fileName + " (Simulated)");
+    }
+</script>
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-light">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="display-4 fw-bold">Contact Us</h2>
+                    <p class="lead text-muted">Get in touch with our expert team</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="contact-info mb-4">
+                        <h3>Our Information</h3>
+                        <p><strong>Address:</strong> Hyderabad</p>
+                        <p><strong>Email:</strong> ayyosarvam@gmail.com</p>
+                        <p><strong>Phone:</strong> 987654321</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title mb-4">Send us a message</h3>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="subject" placeholder="Enter subject">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" rows="4" placeholder="Enter your message"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">© 2025 Samarth - The Smart Guide. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Smooth scroll script -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 55,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active state in navbar
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Close mobile menu if open
+                    const navbarCollapse = document.querySelector('.navbar-collapse');
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarCollapse.classList.remove('show');
+                    }
+                }
+            });
+        });
+        
+        // Add active class based on scroll position
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
