@@ -11,8 +11,8 @@
             lightGray: "#f1f1f1"
         },
         apiEndpoints: {
-            // gemini: "https://192.168.27.236:8000/gemini",
-            mindMap: "https://192.168.27.236:8000/extract"
+            // gemini: "https://localhost:8000/gemini",
+            mindMap: "https://localhost:8000/extract"
         }
     };
 
@@ -28,11 +28,11 @@
         button.style = `
             position: fixed; bottom: 20px; right: 20px;
             background: ${config.colors.primary}; color: white;
-            padding: 15px; border-radius: 50%;
-            cursor: pointer; font-size: 20px;
+            padding: 15px; border-radius: 80px;
+            cursor: pointer; font-size: 24px;
             z-index: 9999; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
             display: flex; align-items: center; justify-content: center;
-            width: 24px; height: 24px; transition: all 0.3s ease;
+            width: 50px; height: 50px; transition: all 0.3s ease;
         `;
         document.body.appendChild(button);
 
@@ -40,8 +40,8 @@
         const chatContainer = document.createElement("div");
         chatContainer.id = "ai-chat-container";
         chatContainer.style = `
-            position: fixed; bottom: 80px; right: 20px;
-            width: 350px; max-height: 500px;
+            position: fixed; bottom: 80px; right: 30px;
+            width: 500px; max-height: 700px;
             background: ${config.colors.background}; border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             display: none; flex-direction: column;
@@ -232,7 +232,7 @@ async function renderMindMap() {
     // Get and disable button
     const generateButton = document.getElementById("generate-mindmap");
     generateButton.disabled = true;
-    generateButton.innerText = "⏳ Generating...";
+    generateButton.innerText = "⏳ May take upto 2 minutes";
     generateButton.style.opacity = "0.7";
     
     try {
@@ -270,7 +270,7 @@ async function renderMindMap() {
 }
 
 async function askGemini(query, retryCount = 3, delay = 1000) {
-    const apiUrl = "https://192.168.27.236:8000/gemini"; // API route
+    const apiUrl = "https://localhost:8000/gemini"; // API route
 
     const requestBody = {
         query: query, 
