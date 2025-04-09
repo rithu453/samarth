@@ -1,21 +1,31 @@
 {
-  "manifest_version": 3,
-  "name": "samarth",
-  "version": "1.0",
-  "description": "Floating AI assistant for summarizing webpages and answering queries.",
-  "permissions": ["scripting", "storage", "activeTab"],
-  "host_permissions": ["<all_urls>"],
-  "background": {
+    "manifest_version": 3,
+    "name": "Samarth",
+    "version": "1.0",
+    "description": "Floating AI assistant for summarizing webpages and answering queries.",
+    "permissions": ["scripting", "storage", "activeTab"],
+    "host_permissions": ["<all_urls>"],
+    "background": {
       "service_worker": "background.js"
-  },
-  "content_scripts": [
+    },
+    "content_scripts": [
       {
-          "matches": ["<all_urls>"],
-          "js": ["content.js"],
-          "css": ["pop.css"]
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "css": ["pop.css"]
       }
-  ],
-  "action": {
+    ],
+    "action": {
       "default_popup": "pop.html"
+    },
+    "web_accessible_resources": [
+      {
+        "resources": ["mermaid.min.js"],
+        "matches": ["<all_urls>"]
+      }
+    ],
+    "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self';"
+    }
   }
-}
+  
